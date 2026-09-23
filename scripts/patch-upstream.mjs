@@ -75,6 +75,17 @@ function replaceOnce(text, before, after, label) {
   write("apps/web/src/components/game-client.tsx", s);
 }
 
+// GitHub Pages has no same-origin Go backend. Freeplay and Tutorial are fully
+// client-side, so do not block them on guest-account creation.
+{
+  let s = read("apps/web/src/app/app/game/[scenario]/page.tsx");
+  s = replaceOnce(s,
+    "      // Skip if already attempted or if we're not in a challenge\\n      if (initAttemptedRef.current) return;\\n      \\n      // Wait for basic user/challenge query states to settle",
+    "      // Skip if already attempted\\n      if (initAttemptedRef.current) return;\\n\\n      // Freeplay and Tutorial are local-only on the static Pages build.\\n      // Do not require the guest-account/backend bootstrap for these modes.\\n      if (!isChallenge) {\\n        initAttemptedRef.current = true;\\n        setInitError(null);\\n        setIsInitializing(false);\\n        return;\\n      }\\n      \\n      // Wait for basic user/challenge query states to settle",
+    "static freeplay/tutorial initialization");
+  write("apps/web/src/app/app/game/[scenario]/page.tsx", s);
+}
+
 {
   const cfg = 'import type { NextConfig } from "next";\n' +
     'import path from "path";\n\n' +
