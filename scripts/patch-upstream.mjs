@@ -80,8 +80,8 @@ function replaceOnce(text, before, after, label) {
 {
   let s = read("apps/web/src/app/app/game/[scenario]/page.tsx");
   s = replaceOnce(s,
-    "      // Skip if already attempted or if we're not in a challenge\\n      if (initAttemptedRef.current) return;\\n      \\n      // Wait for basic user/challenge query states to settle",
-    "      // Skip if already attempted\\n      if (initAttemptedRef.current) return;\\n\\n      // Freeplay and Tutorial are local-only on the static Pages build.\\n      // Do not require the guest-account/backend bootstrap for these modes.\\n      if (!isChallenge) {\\n        initAttemptedRef.current = true;\\n        setInitError(null);\\n        setIsInitializing(false);\\n        return;\\n      }\\n      \\n      // Wait for basic user/challenge query states to settle",
+    "      // Skip if already attempted or if we're not in a challenge\n      if (initAttemptedRef.current) return;\n      \n      // Wait for basic user/challenge query states to settle",
+    "      // Skip if already attempted\n      if (initAttemptedRef.current) return;\n\n      // Freeplay and Tutorial are local-only on the static Pages build.\n      // Do not require the guest-account/backend bootstrap for these modes.\n      if (!isChallenge) {\n        initAttemptedRef.current = true;\n        setInitError(null);\n        setIsInitializing(false);\n        return;\n      }\n      \n      // Wait for basic user/challenge query states to settle",
     "static freeplay/tutorial initialization");
   write("apps/web/src/app/app/game/[scenario]/page.tsx", s);
 }
